@@ -47,8 +47,10 @@
 		  output="screen"/>
 	
 	<node name="motion_saver" pkg="jacob" type="motion_saver.py" output="screen" launch-prefix="xterm -e"/>
-	<node name="motion_player" pkg="jacob" type="motion_player.py" />
-    <node name="quantum_player" pkg="jacob" type="quantum_player.py" output="screen" launch-prefix="xterm -e"/>
+	<!-- <node name="motion_player" pkg="jacob" type="motion_player.py" /> -->
+    <!-- <node name="quantum_player" pkg="jacob" type="quantum_player.py" output="screen" launch-prefix="xterm -e"/> -->
+    <node name="battery_status" pkg="jacob" type="battery_status.py" output="screen" launch-prefix="xterm -e"/>
+    <node name="speed_combine" pkg="jacob" type="speed_combine.py" output="screen" launch-prefix="xterm -e"/>
 	<node name="joint_mapper" pkg="jacob" type="joint_states2motor_states.py"/> 
 	<node name="keyboard" pkg="keyboard" type="keyboard"/>
 </launch>

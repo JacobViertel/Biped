@@ -21,6 +21,7 @@ global right_arm_enabled
 global head_enabled
 global part
 global motion_counter
+global batt_status
 
 # initial values for global variables
 motion_counter = 0
@@ -34,9 +35,11 @@ button = 0
 edit = 0
 name = ""
 part = ""
+batt_status = ""
 
 motion_pub = rospy.Publisher('play_motion', String)
 quantum_motion_pub = rospy.Publisher('/play_quantum_motion', String)
+battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
 
 #  call back function for the keyboard/key topic subscribe
 #  h - help menu
@@ -89,6 +92,23 @@ def keyboard_capture(data):
 			motion_pub.publish(name)
 		name = raw_input("press enter to go back")
 
+	#press on "b" to start quantum machine
+	if button == 98 and edit !=1:
+		batt_status = ""
+		print "Input plaese"
+		batt_status = raw_input()
+		battery_pub.publish(batt_status)
+		# print "What is the battery status?"
+		# name = ""
+		# name = raw_input("What motion do you want to play?: ")
+		# if batt_status == 0:
+		# 	print "not enough battery, please charge"
+		# 	battery_pub.publish(name)
+		# else:
+		# 	print "enough battery, lets start"
+		# 	battery_pub.publish(name)
+		
+	
 	#press on "q" to start quantum machine
 	if button == 113 and edit !=1:
 		os.system('cls' if os.name == 'nt' else 'clear')
@@ -107,9 +127,6 @@ def keyboard_capture(data):
 		else:
 			quantum_motion_pub.publish(name)
 		name = raw_input("press enter to go back")
-
-
-
 		
 	# press on "n" to create a new motion file
 	if button == 110 and edit !=1:
@@ -356,6 +373,7 @@ def motion_control():
 	print "- y = enable/disable a body part"
 	print "- p = play a motion file"
 	print "- q = for some quantum-ness"
+	print "- b = Please init the battery status"
 	print "- h = help"
 	
 	rospy.init_node('motion_saver', anonymous=True)
