@@ -10,23 +10,35 @@ import os
 from math import log
 import rosservice
 
-def callback(msg):
+def bat_callback(msg):
 	factor_batt = msg.data
-	print factor_batt
 	init_joint_spped = rospy.get_param("/left_elbow_controller/joint_speed")
-	print "init_joint_spped"
+	print "get_init_joint_spped"
 	print init_joint_spped
-	print "combined speed"
 	combined_joint_speed = init_joint_spped*factor_batt
+	print "set combined speed"
 	print combined_joint_speed
 	rospy.set_param("/left_elbow_controller/joint_speed", combined_joint_speed)
-	print "new_joint_spped"
+	print "get_set_joint_spped"
+	print rospy.get_param("/left_elbow_controller/joint_speed")
+
+def mood_callback(msg):
+	factor_batt = msg.data
+	init_joint_spped = rospy.get_param("/left_elbow_controller/joint_speed")
+	print "get_init_joint_spped"
+	print init_joint_spped
+	combined_joint_speed = init_joint_spped*factor_batt
+	print "set combined speed"
+	print combined_joint_speed
+	rospy.set_param("/left_elbow_controller/joint_speed", combined_joint_speed)
+	print "get_set_joint_spped"
 	print rospy.get_param("/left_elbow_controller/joint_speed")
 
 
 def speed_manager():
 	rospy.init_node('speed_combine', anonymous=True)
-	rospy.Subscriber('/factor_vel_bat', Float64, callback)
+	rospy.Subscriber('/factor_vel_bat', Float64, bat_callback)
+	rospy.Subscriber('/factor_vel_mood', Float64, mood_callback)
 	rate = rospy.Rate(20)
 	rospy.spin()
 	

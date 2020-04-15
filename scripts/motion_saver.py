@@ -36,10 +36,12 @@ edit = 0
 name = ""
 part = ""
 batt_status = ""
+mood = 0
 
 motion_pub = rospy.Publisher('play_motion', String)
 quantum_motion_pub = rospy.Publisher('/play_quantum_motion', String)
 battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
+cl_mood_pub = rospy.Publisher('/cl_mood', Float64, queue_size = 10)
 
 #  call back function for the keyboard/key topic subscribe
 #  h - help menu
@@ -107,6 +109,15 @@ def keyboard_capture(data):
 		# else:
 		# 	print "enough battery, lets start"
 		# 	battery_pub.publish(name)
+		#press on "b" to start quantum machine
+
+	#press on "m" to start quantum machine	
+	if button == 109 and edit !=1:
+		mood = 1
+		print "What should be the initial state? 1 for happy, 0 for exhausted"
+		mood = raw_input()
+		mood = float(mood)
+		cl_mood_pub.publish(mood)
 		
 	
 	#press on "q" to start quantum machine
@@ -374,6 +385,7 @@ def motion_control():
 	print "- p = play a motion file"
 	print "- q = for some quantum-ness"
 	print "- b = Please init the battery status"
+	print "- m = Please initialize the mood"
 	print "- h = help"
 	
 	rospy.init_node('motion_saver', anonymous=True)
