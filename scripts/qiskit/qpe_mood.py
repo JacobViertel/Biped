@@ -22,19 +22,6 @@ def qft_dagger(circ, n):
             circ.cu1(-math.pi/float(2**(j-m)), m, j)
         circ.h(j)
 
-# Ask user for init mood:
-# print("What is the initial mood of the robot, in int?")
-# while True:
-#    try:
-#        mood = int(input("0 -> exhausted, 1 -> okay, and 2 -> happy:  "))
-#    except ValueError: # just catch the exceptions you know!
-#        print("That\'s not a int number!")
-#    else:
-#        if 0 <= mood < 3: # this is faster
-#            break
-#        else:
-#            print("Out of range. Try again")
-# print("Great, you successfully entered an integer!")
 mood = sys.argv[1]
 mood = int(float(mood))
 # Setting up the quantum circuit:
@@ -60,7 +47,7 @@ shots = 2048
 results = execute(qpe, backend=backend, shots=shots).result()
 answer = results.get_counts()
 
-mood_result = open("/home/biped/catkin_ws/src/jacob/scripts/qpe_mood_result.csv", "w")
+mood_result = open("/home/biped/catkin_ws/src/jacob/scripts/results/qpe_mood_result.csv", "w")
 writer = csv.writer(mood_result)
 for key, value in answer.items():
     writer.writerow([key, value])

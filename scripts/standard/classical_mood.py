@@ -17,7 +17,7 @@ def callback(data):
     else:
         # send factor 1 to combined 
         print "sending norm fac"
-        factor = 1  
+        factor = 1.00  
     factor_vel_mood_pub.publish(fac_mood)
 
 def internal_state():

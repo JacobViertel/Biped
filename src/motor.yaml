@@ -7,7 +7,7 @@ neck_controller:
     joint_speed: 2
     motor:
         id: 19
-        init: 0
+        init: 2061
         min: 1652
         max: 2448
 

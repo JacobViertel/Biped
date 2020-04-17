@@ -21,18 +21,11 @@ def callback(data):
 	range = max - min
 	th_batt = 0.5
 	batt_status = 0.0
-	# print ("we got something as String: ") + data.data
+
 	name = data.data
-	# print ("we got something as name saved ") + name
-	# print type(name)
 	batt_int = int(name)
-	# print ("we got something as Int: ")
-	# print type(batt_int)
-	# print batt_int 
-	# print ("we got something as Int: ")
-	# print log(batt_int,2)
-	# print ("Factor for vel: ")
 	batt_status = (log(batt_int,2)-min)/(range)
+	
 	if batt_status < th_batt:
 		print th_batt
 	else:
