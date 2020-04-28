@@ -43,8 +43,8 @@ quantum_motion_generator_pub = rospy.Publisher('/motion_name', String)
 quantum_motion_pub = rospy.Publisher('/play_quantum_motion', String)
 battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
 qlor_greet_pub = rospy.Publisher('/lor_handed', String)
-# cl_mood_pub = rospy.Publisher('/cl_mood', Float64, queue_size = 10)
-q_mood_pub = rospy.Publisher('/q_mood', Float64, queue_size = 10)
+q_mood_pub = rospy.Publisher('/q_mood', String, queue_size = 10)
+
 #  call back function for the keyboard/key topic subscribe
 #  h - help menu
 #  e - edit motion file
@@ -137,19 +137,12 @@ def keyboard_capture(data):
 	#press on "m" to start quantum machine	
 	if button == 109 and edit !=1:
 		mood = 1
-		print("What is the initial mood of the robot, in int?")
-		while True:
-			try:
-				mood = int(input("0 -> exhausted, 1 -> okay, and 2 -> happy:  "))
-			except ValueError: # just catch the exceptions you know!
-				print("That\'s not a int number!")
-			else:
-				if 0 <= mood < 3: # this is faster
-					break
-				else:
-					print("Out of range. Try again")
-			print("Great, you successfully entered an integer!")
-		q_mood_pub.publish(mood)
+		print("Is the robot rather happy or exhausted?")
+		mood = str(input("0 -> exhausted, or 1 -> happy:  "))
+		print("How intense is this feeling pronounced?")
+		intensity = str(input("0 -> weak, 1 -> medium, or 2 -> highly:  "))
+		combined = mood+intensity
+		q_mood_pub.publish(combined)
 		
 	
 	#press on "q" to start quantum machine
