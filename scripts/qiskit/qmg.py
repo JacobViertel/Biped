@@ -26,7 +26,7 @@ if os.path.exists("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_resul
 else:
     pass
 
-motors = ["shoulder", "elbow", "wrist"]
+motors = ["shoulder", "relbow","lelbow", "rwrist", "lwrist", "neck"]
 #Define circuit properties for joints
 for i in range(len(motors)):
     circ_prop = []
@@ -129,7 +129,7 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
     Lshoulder_motion = []
     Lelbow_motion = []
     Lwrist_motion = []
-    Rshoulder_motion = []
+    neck_motion = []
     Relbow_motion = []
     Rwrist_motion = []
     
@@ -145,7 +145,19 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
                 elif i == "11":
                     Lshoulder_motion.append(-2.86)
             line_count +=1
+
         elif line_count == 1:
+            for i in row:
+                if i == "00":
+                    Relbow_motion.append(-0.07)
+                elif i == "01":
+                    Relbow_motion.append(0.39)
+                elif i == "10":
+                    Relbow_motion.append(0.88)
+                elif i == "11":
+                    Relbow_motion.append(1.75)
+            line_count +=1
+        elif line_count == 2:
             for i in row:
                 if i == "00":
                     Lelbow_motion.append(1.51)
@@ -156,7 +168,18 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
                 elif i == "11":
                     Lelbow_motion.append(-0.06)
             line_count +=1
-        elif line_count == 2:
+        elif line_count == 3:
+            for i in row:
+                if i == "00":
+                    Rwrist_motion.append(0.2)
+                elif i == "01":
+                    Rwrist_motion.append(1.26)
+                elif i == "10":
+                    Rwrist_motion.append(0.95)
+                elif i == "11":
+                    Rwrist_motion.append(-1.65)
+            line_count +=1    
+        elif line_count == 4:
             for i in row:
                 if i == "00":
                     Lwrist_motion.append(0.14)
@@ -167,11 +190,20 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
                 elif i == "11":
                     Lwrist_motion.append(1.55)
             line_count +=1
+        elif line_count == 5:
+            for i in row:
+                if i == "00":
+                    neck_motion.append(0.62)
+                elif i == "01" or i == "10":
+                    neck_motion.append(-0.13)
+                elif i == "11":
+                    neck_motion.append(-0.83)
+            line_count +=1
 
-    for i in row:
-        Rshoulder_motion.append(-0.13)
-        Relbow_motion.append(0.21)
-        Rwrist_motion.append(0.12)
+    # for i in row:
+        # Rshoulder_motion.append(-0.13)
+        # Relbow_motion.append(0.21)
+        # Rwrist_motion.append(0.12)
     # print(shoulder_motion)
     # print(elbow_motion)
     # print(wrist_motion)
@@ -180,18 +212,18 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
 with open(motion_file, "a") as fp:
     wr = csv.writer(fp, dialect="excel")
     wr.writerow(Lshoulder_motion)
-    wr.writerow(Rshoulder_motion)
-    wr.writerow(Lelbow_motion)
     wr.writerow(Relbow_motion)
-    wr.writerow(Lwrist_motion)
+    wr.writerow(Lelbow_motion)
     wr.writerow(Rwrist_motion)
+    wr.writerow(Lwrist_motion)
+    wr.writerow(neck_motion)
 
 with open(motion_file) as file:
     lis = [x.replace('\n', '').split(',') for x in file]
 
 x = np.array(lis)
 # print(x)
-init_pose = [0.03,-0.005,1.4,-0.04,0.21,3.16]
+init_pose = [0.03,-0.005,1.4,-0.04,0.21,-0.13]
 with open(motion_file, "w") as fp:
     wr = csv.writer(fp, dialect="excel")
     for i in range(len(x.T)):

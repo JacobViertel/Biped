@@ -1,3 +1,6 @@
-shoulder,0,1,0,0,1
-elbow,0,1,0,0,1
-wrist,0.4,1,1,0,1
+shoulder,0,1,1,0,1
+relbow,0,1,1,0,1
+lelbow,0,1,1,0,1
+rwrist,0,1,1,0,1
+lwrist,0,1,1,0,1
+neck,0,1,1,0,1
