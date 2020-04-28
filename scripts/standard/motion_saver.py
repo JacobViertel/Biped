@@ -39,8 +39,10 @@ batt_status = ""
 mood = 0
 
 motion_pub = rospy.Publisher('play_motion', String)
+quantum_motion_generator_pub = rospy.Publisher('/motion_name', String)
 quantum_motion_pub = rospy.Publisher('/play_quantum_motion', String)
 battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
+qlor_greet_pub = rospy.Publisher('/lor_handed', String)
 # cl_mood_pub = rospy.Publisher('/cl_mood', Float64, queue_size = 10)
 q_mood_pub = rospy.Publisher('/q_mood', Float64, queue_size = 10)
 #  call back function for the keyboard/key topic subscribe
@@ -67,12 +69,33 @@ def keyboard_capture(data):
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print "motion saver v1.0 help"
 		print "- n = create a new motion file"
+		print "- k = create a quantum motion file"
 		print "- e = edit a motion file"
 		print "- c = save and exit editting a motion file"
 		print "- p = play a motion file"
 		print "- t = turn on/off torque all servos"
 		print "- y = turn on/off torque a body part"
 		print "- h = help"
+		name = raw_input("press enter to go back")
+	
+	#press on "g" to play motions
+	if button == 103 and edit !=1:
+		name = ""
+		name = raw_input("Is the robot left [1] or right [0] handed?: ")
+		if name == "none":
+			print "going back"
+		else:
+			qlor_greet_pub.publish(name)
+		name = raw_input("press enter to go back")
+
+	#press on "k" to play motions
+	if button == 107 and edit !=1:
+		name = ""
+		name = raw_input("How do you want to name your motion file?: ")
+		if name == "none":
+			print "going back"
+		else:
+			quantum_motion_generator_pub.publish(name)
 		name = raw_input("press enter to go back")
 	
 	#press on "p" to play motions

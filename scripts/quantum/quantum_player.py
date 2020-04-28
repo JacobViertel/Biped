@@ -41,8 +41,8 @@ def motion_play(data):
 				print(len(content))
 				for i in range (0, len(content)):
 					joint_positions = content[i].split(",")
-					delay = joint_positions[6]
-					del joint_positions[6]
+					# delay = joint_positions[6]
+					# del joint_positions[6]
 					pub2.publish(float(joint_positions[0]))
 					pub3.publish(float(joint_positions[1]))
 					pub4.publish(float(joint_positions[2]))
