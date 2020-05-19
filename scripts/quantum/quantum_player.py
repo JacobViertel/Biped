@@ -9,19 +9,28 @@ import os
 
 
 global is_moving
-is_moving = [1, 1, 1, 1, 1, 1]
+is_moving = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 global in_action
 in_action = 0
 
-pub2 = rospy.Publisher('/left_shoulder_controller/command', Float64, queue_size=1)
-pub3 = rospy.Publisher('/right_elbow_controller/command', Float64, queue_size=1)
-pub4 = rospy.Publisher('/left_elbow_controller/command', Float64, queue_size=1)
-pub5 = rospy.Publisher('/right_hand_controller/command', Float64, queue_size=1)
-pub6 = rospy.Publisher('/left_hand_controller/command', Float64, queue_size=1)
-pub19 = rospy.Publisher('/neck_controller/command', Float64, queue_size=1)
-print "Bin am stissel und alle publisher sind init"
-print "Goenne mir mal etwas quantum"
-
+pub2 = rospy.Publisher('/left_shoulder_controller/command', Float64, queue_size = 10)
+pub3 = rospy.Publisher('/right_elbow_controller/command', Float64, queue_size = 10)
+pub4 = rospy.Publisher('/left_elbow_controller/command', Float64, queue_size = 10)
+pub5 = rospy.Publisher('/right_hand_controller/command', Float64, queue_size = 10)
+pub6 = rospy.Publisher('/left_hand_controller/command', Float64, queue_size = 10)
+pub7 = rospy.Publisher('/right_rot_hip_controller/command', Float64, queue_size = 10)
+pub8 = rospy.Publisher('/left_rot_hip_controller/command', Float64, queue_size = 10)
+pub9 = rospy.Publisher('/right_tilt_hip_controller/command', Float64, queue_size = 10)
+pub10 = rospy.Publisher('/left_tilt_hip_controller/command', Float64, queue_size = 10)
+pub11 = rospy.Publisher('/right_lift_leg_controller/command', Float64, queue_size = 10)
+pub12 = rospy.Publisher('/left_lift_leg_controller/command', Float64, queue_size = 10)
+pub13 = rospy.Publisher('/right_knee_controller/command', Float64, queue_size = 10)
+pub14 = rospy.Publisher('/left_knee_controller/command', Float64, queue_size = 10)
+pub15 = rospy.Publisher('/right_lift_ankle_controller/command', Float64, queue_size = 10)
+pub16 = rospy.Publisher('/left_lift_ankle_controller/command', Float64, queue_size = 10)
+pub17 = rospy.Publisher('/right_rot_ankle_controller/command', Float64, queue_size = 10)
+pub18 = rospy.Publisher('/left_rot_ankle_controller/command', Float64, queue_size = 10)
+pub19 = rospy.Publisher('/neck_controller/command', Float64, queue_size = 10)
 
 def motion_play(data):
 	global in_action
@@ -48,39 +57,95 @@ def motion_play(data):
 					pub4.publish(float(joint_positions[2]))
 					pub5.publish(float(joint_positions[3]))
 					pub6.publish(float(joint_positions[4]))
-					pub19.publish(float(joint_positions[5]))
+					pub7.publish(float(joint_positions[5]))
+					pub8.publish(float(joint_positions[6]))
+					pub9.publish(float(joint_positions[7]))
+					pub10.publish(float(joint_positions[8]))
+					pub11.publish(float(joint_positions[9]))
+					pub12.publish(float(joint_positions[10]))
+					pub13.publish(float(joint_positions[11]))
+					pub14.publish(float(joint_positions[12]))
+					pub15.publish(float(joint_positions[13]))
+					pub16.publish(float(joint_positions[14]))
+					pub17.publish(float(joint_positions[15]))
+					pub18.publish(float(joint_positions[16]))
+					pub19.publish(float(joint_positions[17]))
 					global is_moving
-					is_moving = [1, 1, 1, 1, 1, 1]
+					is_moving = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 					def left_shoulder_callback(data):
 						global is_moving 
-						is_moving[0]  = data.is_moving				
-															
+						is_moving[0]  = data.is_moving															
 					def right_elbow_callback(data):
 						global is_moving
-						is_moving[1] = data.is_moving
-				
+						is_moving[1] = data.is_moving			
 					def left_elbow_callback(data):
 						global is_moving
 						is_moving[2] = data.is_moving
-
 					def right_hand_callback(data):
 						global is_moving
-						is_moving[3] = data.is_moving
-					
+						is_moving[3] = data.is_moving					
 					def left_hand_callback(data):
 						global is_moving
 						is_moving[4] = data.is_moving
-																									
-					def neck_callback(data):
+					def right_hip_turn_callback(data):
 						global is_moving
 						is_moving[5] = data.is_moving
+					def left_hip_turn_callback(data):
+						global is_moving
+						is_moving[6] = data.is_moving
+					def right_tilt_hip_callback(data):
+						global is_moving
+						is_moving[7] = data.is_moving
+					def left_tilt_hip_callback(data):
+						global is_moving
+						is_moving[8] = data.is_moving
+					def right_lift_leg_callback(data):
+						global is_moving
+						is_moving[9] = data.is_moving
+					def left_lift_leg_callback(data):
+						global is_moving
+						is_moving[10] = data.is_moving
+					def right_knee_callback(data):
+						global is_moving
+						is_moving[11] = data.is_moving
+					def left_knee_callback(data):
+						global is_moving
+						is_moving[12] = data.is_moving
+					def right_lift_ankle_callback(data):
+						global is_moving
+						is_moving[13] = data.is_moving
+					def left_lift_ankle_callback(data):
+						global is_moving
+						is_moving[14] = data.is_moving
+					def right_rot_ankle_callback(data):
+						global is_moving
+						is_moving[15] = data.is_moving
+					def left_rot_ankle_callback(data):
+						global is_moving
+						is_moving[16] = data.is_moving																									
+					def neck_callback(data):
+						global is_moving
+						is_moving[17] = data.is_moving
 								
 					rospy.Subscriber('/left_shoulder_controller/state', JointState, left_shoulder_callback)	
 					rospy.Subscriber('/right_elbow_controller/state', JointState, right_elbow_callback)
 					rospy.Subscriber('/left_elbow_controller/state', JointState, left_elbow_callback)
 					rospy.Subscriber('/right_hand_controller/state', JointState, right_hand_callback)
 					rospy.Subscriber('/left_hand_controller/state', JointState, left_hand_callback)
+					rospy.Subscriber('/right_rot_hip_controller/state', JointState, right_hip_turn_callback)
+					rospy.Subscriber('/left_rot_hip_controller/state', JointState, left_hip_turn_callback)
+					rospy.Subscriber('/right_tilt_hip_controller/state', JointState, right_tilt_hip_callback)
+					rospy.Subscriber('/left_tilt_hip_controller/state', JointState, left_tilt_hip_callback)
+					rospy.Subscriber('/right_lift_leg_controller/state', JointState, right_lift_leg_callback)
+					rospy.Subscriber('/left_lift_leg_controller/state', JointState, left_lift_leg_callback)
+					rospy.Subscriber('/right_knee_controller/state', JointState, right_knee_callback)
+					rospy.Subscriber('/left_knee_controller/state', JointState, left_knee_callback)
+					rospy.Subscriber('/right_lift_ankle_controller/state', JointState, right_lift_ankle_callback)
+					rospy.Subscriber('/left_lift_ankle_controller/state', JointState, left_lift_ankle_callback)
+					rospy.Subscriber('/right_rot_ankle_controller/state', JointState, right_rot_ankle_callback)
+					rospy.Subscriber('/left_rot_ankle_controller/state', JointState, left_rot_ankle_callback)
 					rospy.Subscriber('/neck_controller/state', JointState, neck_callback)
+					
 					# delay between motions
 					while any(is_moving):
 						rospy.sleep(0.05)

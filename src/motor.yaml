@@ -1,17 +1,3 @@
-neck_controller:
-    controller:
-        package: dynamixel_controllers
-        module: joint_position_controller
-        type: JointPositionController
-    joint_name: neck_joint
-    joint_speed: 2
-    motor:
-        id: 19
-        init: 2061
-        min: 1652
-        max: 2448
-
-
 left_shoulder_controller:
     controller:
         package: dynamixel_controllers
@@ -76,3 +62,173 @@ left_hand_controller:
         init: 1923
         min: 1288
         max: 2784
+
+right_rot_hip_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_rot_hip_joint
+    joint_speed: 0.7
+    motor:
+        id: 7
+        init: 2050
+        min: 100
+        max: 3800
+
+left_rot_hip_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_rot_hip_joint
+    joint_speed: 0.7
+    motor:
+        id: 8
+        init: 2000
+        min: 100
+        max: 3600
+
+right_tilt_hip_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_tilt_hip_joint
+    joint_speed: 0.7
+    motor:
+        id: 9
+        init: 2036
+        min: 2000
+        max: 2050
+
+left_tilt_hip_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_tilt_hip_joint
+    joint_speed: 0.7
+    motor:
+        id: 10
+        init: 0
+        min: 2050
+        max: 3000
+
+right_lift_leg_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_lift_leg_joint
+    joint_speed: 0.7
+    motor:
+        id: 11
+        init: 0
+        min: 700
+        max: 2500
+
+left_lift_leg_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_lift_leg_joint
+    joint_speed: 0.7
+    motor:
+        id: 12
+        init: 0
+        min: 1090
+        max: 3580
+
+right_knee_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_knee_joint
+    joint_speed: 0.7
+    motor:
+        id: 13
+        init: 0
+        min: 1500
+        max: 2900
+
+left_knee_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_knee_joint
+    joint_speed: 0.7
+    motor:
+        id: 14
+        init: 0
+        min: 1000
+        max: 2500
+
+right_lift_ankle_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_lift_ankle_joint
+    joint_speed: 0.7
+    motor:
+        id: 15
+        init: 0
+        min: 1100
+        max: 2750
+
+left_lift_ankle_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_lift_ankle_joint
+    joint_speed: 0.7
+    motor:
+        id: 16
+        init: 0
+        min: 1100
+        max: 2850
+
+right_rot_ankle_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_rot_ankle_joint
+    joint_speed: 0.7
+    motor:
+        id: 17
+        init: 0
+        min: 1800
+        max: 2250
+
+left_rot_ankle_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_rot_ankle_joint
+    joint_speed: 0.7
+    motor:
+        id: 18
+        init: 2098
+        min: 1550
+        max: 2550
+
+neck_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: neck_joint
+    joint_speed: 2
+    motor:
+        id: 19
+        init: 0
+        min: 1652
+        max: 2448
+

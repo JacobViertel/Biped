@@ -18,16 +18,21 @@ else:
 # setting up params
 n = 2
 rot = 0.77
-lor = int(sys.argv[1])
+with open("/home/biped/catkin_ws/src/jacob/scripts/results/strong_hand.csv") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            lor = row[0]
+print(lor)
+
 q = QuantumRegister(n)
 grover_circuit = QuantumCircuit(q)
 for qubit in range(n):
     grover_circuit.h(qubit)
-if lor == 1:
+if lor == "1":
     for qubit in range(n):
         grover_circuit.x(qubit)
 grover_circuit.cu1(pi/rot,q[0], q[1])
-if lor == 1:
+if lor == "1":
     for qubit in range(n):
         grover_circuit.x(qubit)
 for qubit in range(n):
@@ -48,7 +53,7 @@ lor_result = open("/home/biped/catkin_ws/src/jacob/scripts/results/l_r_greet_res
 writer = csv.writer(lor_result)
 writer.writerow(answer.keys())
 lor_result.close()
-# print(answer)
+print(answer)
 print("motion selection is done")
 
 

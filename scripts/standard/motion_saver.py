@@ -3,6 +3,7 @@
 # import libraries, message types, and service types
 import rospy
 import os
+import csv
 from dynamixel_controllers.srv import TorqueEnable
 from dynamixel_msgs.msg import JointState
 from keyboard.msg import Key
@@ -18,7 +19,7 @@ global name
 global all_enabled
 global left_arm_enabled
 global right_arm_enabled
-global head_enabled
+# global head_enabled
 global part
 global motion_counter
 global batt_status
@@ -26,10 +27,10 @@ global batt_status
 # initial values for global variables
 motion_counter = 0
 all_enabled = 1
-head_enabled = 1
+# head_enabled = 1
 left_arm_enabled = 1
 right_arm_enabled = 1
-positions = [0, 0, 0, 0, 0, 0]
+positions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 file = None
 button = 0
 edit = 0
@@ -44,6 +45,8 @@ quantum_motion_pub = rospy.Publisher('/play_quantum_motion', String)
 battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
 qlor_greet_pub = rospy.Publisher('/lor_handed', String)
 q_mood_pub = rospy.Publisher('/q_mood', String, queue_size = 10)
+qvision_pub = rospy.Publisher('/qvision', String)
+
 
 #  call back function for the keyboard/key topic subscribe
 #  h - help menu
@@ -59,11 +62,29 @@ def keyboard_capture(data):
 	global all_enabled
 	global left_arm_enabled
 	global right_arm_enabled
-	global head_enabled
+	# global head_enabled
 	global motion_counter
 	
 	button = data.code
-
+	# define services 
+	service2 = rospy.ServiceProxy('/left_shoulder_controller/torque_enable', TorqueEnable)
+	service3 = rospy.ServiceProxy('/right_elbow_controller/torque_enable', TorqueEnable)
+	service4 = rospy.ServiceProxy('/left_elbow_controller/torque_enable', TorqueEnable)
+	service5 = rospy.ServiceProxy('/right_hand_controller/torque_enable', TorqueEnable)
+	service6 = rospy.ServiceProxy('/left_hand_controller/torque_enable', TorqueEnable)
+	service7 = rospy.ServiceProxy('/right_rot_hip_controller/torque_enable', TorqueEnable)
+	service8 = rospy.ServiceProxy('/left_rot_hip_controller/torque_enable', TorqueEnable)
+	service9 = rospy.ServiceProxy('/right_tilt_hip_controller/torque_enable', TorqueEnable)
+	service10 = rospy.ServiceProxy('/left_tilt_hip_controller/torque_enable', TorqueEnable)
+	service11 = rospy.ServiceProxy('/right_lift_leg_controller/torque_enable', TorqueEnable)
+	service12 = rospy.ServiceProxy('/left_lift_leg_controller/torque_enable', TorqueEnable)
+	service13 = rospy.ServiceProxy('/right_knee_controller/torque_enable', TorqueEnable)
+	service14 = rospy.ServiceProxy('/left_knee_controller/torque_enable', TorqueEnable)
+	service15 = rospy.ServiceProxy('/right_lift_ankle_controller/torque_enable', TorqueEnable)
+	service16 = rospy.ServiceProxy('/left_lift_ankle_controller/torque_enable', TorqueEnable)
+	service17 = rospy.ServiceProxy('/right_rot_ankle_controller/torque_enable', TorqueEnable)
+	service18 = rospy.ServiceProxy('/left_rot_ankle_controller/torque_enable', TorqueEnable)
+	service19 = rospy.ServiceProxy('/neck_controller/torque_enable', TorqueEnable)
 	#help
 	if button == 104:
 		os.system('cls' if os.name == 'nt' else 'clear')
@@ -72,12 +93,25 @@ def keyboard_capture(data):
 		print "- k = create a quantum motion file"
 		print "- e = edit a motion file"
 		print "- c = save and exit editting a motion file"
+		print "- g = init robot left- or right-handed"
 		print "- p = play a motion file"
 		print "- t = turn on/off torque all servos"
 		print "- y = turn on/off torque a body part"
+		print "- v = start vision"
 		print "- h = help"
 		name = raw_input("press enter to go back")
 	
+	#press on "v" to start vision
+	if button == 118 and edit !=1:
+		name = ""
+		print("Which example image do you use for vision?")
+		name = raw_input("Jacob [1], Marek [2], or Will [3]: ")
+		if name == "none":
+			print "going back"
+		else:
+			qvision_pub.publish(name)
+		name = raw_input("press enter to go back")
+
 	#press on "g" to play motions
 	if button == 103 and edit !=1:
 		name = ""
@@ -85,8 +119,22 @@ def keyboard_capture(data):
 		if name == "none":
 			print "going back"
 		else:
-			qlor_greet_pub.publish(name)
+			if os.path.exists("/home/biped/catkin_ws/src/jacob/scripts/results/l_r_greet_result.csv"):
+			    os.remove("/home/biped/catkin_ws/src/jacob/scripts/results/l_r_greet_result.csv")
+			else:
+			    pass
+			lor_result = open("/home/biped/catkin_ws/src/jacob/scripts/results/strong_hand.csv", "w")
+			writer = csv.writer(lor_result)
+			writer.writerow(name)
+			lor_result.close()
 		name = raw_input("press enter to go back")
+
+	if button == 119 and edit !=1:
+		name = " "
+		print("The robot will greet you")
+		qlor_greet_pub.publish(name)
+		name = raw_input("press enter to go back")
+
 
 	#press on "k" to play motions
 	if button == 107 and edit !=1:
@@ -148,7 +196,24 @@ def keyboard_capture(data):
 	#press on "q" to start quantum machine
 	if button == 113 and edit !=1:
 		os.system('cls' if os.name == 'nt' else 'clear')
-
+		# service2(1)
+		# service3(1)
+		# service4(1)
+		# service5(1)
+		# service6(1)
+		# service7(1)
+		# service8(1)
+		service9(1)
+		service10(1)
+		service11(1)
+		service12(1)
+		service13(1)
+		service14(1)
+		service15(1)
+		service16(1)
+		service17(1)
+		service18(1)
+		service19(1)
 		homedir = os.environ['HOME']
 		motion_directory = homedir + "/catkin_ws/src/jacob/motions/"	
 		print "Your motions:"
@@ -221,12 +286,12 @@ def keyboard_capture(data):
 	if button == 97 and edit == 1:
 		#print data.motor_states[0].position
 		new_line = ""
-		for i in range(0, 6):
+		for i in range(0, 18):
 			new_line = new_line + str(positions[i]) + ","
 				
 		# ask user the delay time between motion steps/frames - add it to the end of each line
-		delay = raw_input("delay(seconds):")
-		new_line = new_line + str(delay)
+		# delay = raw_input("delay(seconds):")
+		# new_line = new_line + str(delay)
 		new_line = new_line + "\n"
 		file.write(new_line)
 		motion_counter = motion_counter + 1
@@ -248,12 +313,25 @@ def keyboard_capture(data):
 	if button == 116 and edit != 1:
 		os.system('cls' if os.name == 'nt' else 'clear')
 		#define service calls
-		service2 = rospy.ServiceProxy('/left_shoulder_controller/torque_enable', TorqueEnable)
-		service3 = rospy.ServiceProxy('/right_elbow_controller/torque_enable', TorqueEnable)
-		service4 = rospy.ServiceProxy('/left_elbow_controller/torque_enable', TorqueEnable)
-		service5 = rospy.ServiceProxy('/right_hand_controller/torque_enable', TorqueEnable)
-		service6 = rospy.ServiceProxy('/left_hand_controller/torque_enable', TorqueEnable)
-		service19 = rospy.ServiceProxy('/neck_controller/torque_enable', TorqueEnable)
+		# service2 = rospy.ServiceProxy('/left_shoulder_controller/torque_enable', TorqueEnable)
+		# service3 = rospy.ServiceProxy('/right_elbow_controller/torque_enable', TorqueEnable)
+		# service4 = rospy.ServiceProxy('/left_elbow_controller/torque_enable', TorqueEnable)
+		# service5 = rospy.ServiceProxy('/right_hand_controller/torque_enable', TorqueEnable)
+		# service6 = rospy.ServiceProxy('/left_hand_controller/torque_enable', TorqueEnable)
+		# service7 = rospy.ServiceProxy('/right_rot_hip_controller/torque_enable', TorqueEnable)
+		# service8 = rospy.ServiceProxy('/left_rot_hip_controller/torque_enable', TorqueEnable)
+		# service9 = rospy.ServiceProxy('/right_tilt_hip_controller/torque_enable', TorqueEnable)
+		# service10 = rospy.ServiceProxy('/left_tilt_hip_controller/torque_enable', TorqueEnable)
+		# service11 = rospy.ServiceProxy('/right_lift_leg_controller/torque_enable', TorqueEnable)
+		# service12 = rospy.ServiceProxy('/left_lift_leg_controller/torque_enable', TorqueEnable)
+		# service13 = rospy.ServiceProxy('/right_knee_controller/torque_enable', TorqueEnable)
+		# service14 = rospy.ServiceProxy('/left_knee_controller/torque_enable', TorqueEnable)
+		# service15 = rospy.ServiceProxy('/right_lift_ankle_controller/torque_enable', TorqueEnable)
+		# service16 = rospy.ServiceProxy('/left_lift_ankle_controller/torque_enable', TorqueEnable)
+		# service17 = rospy.ServiceProxy('/right_rot_ankle_controller/torque_enable', TorqueEnable)
+		# service18 = rospy.ServiceProxy('/left_rot_ankle_controller/torque_enable', TorqueEnable)
+		# service19 = rospy.ServiceProxy('/neck_controller/torque_enable', TorqueEnable)
+		
 	
 		# enable all servos
 		if all_enabled == 0:
@@ -262,6 +340,18 @@ def keyboard_capture(data):
 			service4(1)
 			service5(1)
 			service6(1)
+			service7(1)
+			service8(1)
+			service9(1)
+			service10(1)
+			service11(1)
+			service12(1)
+			service13(1)
+			service14(1)
+			service15(1)
+			service16(1)
+			service17(1)
+			service18(1)
 			service19(1)
 			all_enabled = 1
 			print "torque is enabled"
@@ -273,6 +363,18 @@ def keyboard_capture(data):
 			service4(0)
 			service5(0)
 			service6(0)
+			service7(0)
+			service8(0)
+			service9(0)
+			service10(0)
+			service11(0)
+			service12(0)
+			service13(0)
+			service14(0)
+			service15(0)
+			service16(0)
+			service17(0)
+			service18(0)
 			service19(0)
 			all_enabled = 0
 			print "torque is disabled"
@@ -280,14 +382,24 @@ def keyboard_capture(data):
 	if button == 121 and edit !=1:
 		os.system('cls' if os.name == 'nt' else 'clear')
 		#define service calls
-		service1 = rospy.ServiceProxy('/right_shoulder_controller/torque_enable', TorqueEnable)
 		service2 = rospy.ServiceProxy('/left_shoulder_controller/torque_enable', TorqueEnable)
 		service3 = rospy.ServiceProxy('/right_elbow_controller/torque_enable', TorqueEnable)
 		service4 = rospy.ServiceProxy('/left_elbow_controller/torque_enable', TorqueEnable)
 		service5 = rospy.ServiceProxy('/right_hand_controller/torque_enable', TorqueEnable)
 		service6 = rospy.ServiceProxy('/left_hand_controller/torque_enable', TorqueEnable)
+		service7 = rospy.ServiceProxy('/right_rot_hip_controller/torque_enable', TorqueEnable)
+		service8 = rospy.ServiceProxy('/left_rot_hip_controller/torque_enable', TorqueEnable)
+		service9 = rospy.ServiceProxy('/right_tilt_hip_controller/torque_enable', TorqueEnable)
+		service10 = rospy.ServiceProxy('/left_tilt_hip_controller/torque_enable', TorqueEnable)
+		service11 = rospy.ServiceProxy('/right_lift_leg_controller/torque_enable', TorqueEnable)
+		service12 = rospy.ServiceProxy('/left_lift_leg_controller/torque_enable', TorqueEnable)
+		service13 = rospy.ServiceProxy('/right_knee_controller/torque_enable', TorqueEnable)
+		service14 = rospy.ServiceProxy('/left_knee_controller/torque_enable', TorqueEnable)
+		service15 = rospy.ServiceProxy('/right_lift_ankle_controller/torque_enable', TorqueEnable)
+		service16 = rospy.ServiceProxy('/left_lift_ankle_controller/torque_enable', TorqueEnable)
+		service17 = rospy.ServiceProxy('/right_rot_ankle_controller/torque_enable', TorqueEnable)
+		service18 = rospy.ServiceProxy('/left_rot_ankle_controller/torque_enable', TorqueEnable)
 		service19 = rospy.ServiceProxy('/neck_controller/torque_enable', TorqueEnable)
-		service20 = rospy.ServiceProxy('/head_controller/torque_enable', TorqueEnable)
 		
 		print "body Part Torque Setting:"
 		
@@ -334,21 +446,21 @@ def keyboard_capture(data):
 				
 			print "left arm is disabled"
 				
-		elif part == "head on":
-			service19(1)
-			service20(1)
+		# elif part == "head on":
+			# service19(1)
+			# service20(1)
 				
-			print "head is enabled"
+			# print "head is enabled"
 
 			# disable head servos
-		elif part == "head off":
-			service19(0)
-			service20(0)
-			
-			print "head is disabled"
-			
-		else:
-			print "wrong parameter"
+		# elif part == "head off":
+			# service19(0)
+			# service20(0)
+			# 
+			# print "head is disabled"
+			# 
+		# else:
+			# print "wrong parameter"
 			
 		name = raw_input("press enter to go back")
 	
@@ -358,8 +470,11 @@ def keyboard_capture(data):
 		print "- n = create a new motion file"
 		print "- e = edit a motion file"
 		print "- c = save and exit editting a motion file"
+		print "- k = create a quantum motion file"
 		print "- t = enable/disable all servos"
 		print "- y = enable disable a body part"
+		print "- v = start vision"
+		print "- g = init robot left- or right-handed"
 		print "- h = help"
 			
 # callback funtions for reading joint locations
@@ -387,14 +502,59 @@ def right_hand_callback(data):
 def left_hand_callback(data):
 	global positions
 	positions[4] = data.current_pos
-																				
-def neck_callback(data):
+										
+def right_hip_turn_callback(data):
 	global positions
 	positions[5] = data.current_pos
 
-#def head_callback(data):
-#	global positions
-#	positions[19] = data.current_pos
+def left_hip_turn_callback(data):
+	global positions
+	positions[6] = data.current_pos
+
+def right_tilt_hip_callback(data):
+	global positions
+	positions[7] = data.current_pos
+
+def left_tilt_hip_callback(data):
+	global positions
+	positions[8] = data.current_pos
+										
+def right_lift_leg_callback(data):
+	global positions
+	positions[9] = data.current_pos
+
+def left_lift_leg_callback(data):
+	global positions
+	positions[10] = data.current_pos
+										
+def right_knee_callback(data):
+	global positions
+	positions[11] = data.current_pos
+
+def left_knee_callback(data):
+	global positions
+	positions[12] = data.current_pos
+										
+def right_lift_ankle_callback(data):
+	global positions
+	positions[13] = data.current_pos
+
+def left_lift_ankle_callback(data):
+	global positions
+	positions[14] = data.current_pos
+										
+def right_rot_ankle_callback(data):
+	global positions
+	positions[15] = data.current_pos
+
+def left_rot_ankle_callback(data):
+	global positions
+	positions[16] = data.current_pos
+										
+def neck_callback(data):
+	global positions
+	positions[17] = data.current_pos
+
 
 # main module for the motion saver node
 # create a node and define callback funtions for topics
@@ -405,12 +565,15 @@ def motion_control():
 	print "- n = create a new motion file"
 	print "- e = edit a motion file"
 	print "- c = save and exit editting a motion file"
+	print "- k = create a quantum motion file"
 	print "- t = enable/disable all servos"
 	print "- y = enable/disable a body part"
 	print "- p = play a motion file"
 	print "- q = for some quantum-ness"
 	print "- b = Please init the battery status"
 	print "- m = Please initialize the mood"
+	print "- g = init robot left- or right-handed"
+	print "- v = start vision"
 	print "- h = help"
 	
 	rospy.init_node('motion_saver', anonymous=True)
@@ -422,8 +585,20 @@ def motion_control():
 	rospy.Subscriber('/left_elbow_controller/state', JointState, left_elbow_callback)
 	rospy.Subscriber('/right_hand_controller/state', JointState, right_hand_callback)
 	rospy.Subscriber('/left_hand_controller/state', JointState, left_hand_callback)
+	rospy.Subscriber('/right_rot_hip_controller/state', JointState, right_hip_turn_callback)
+	rospy.Subscriber('/left_rot_hip_controller/state', JointState, left_hip_turn_callback)
+	rospy.Subscriber('/right_tilt_hip_controller/state', JointState, right_tilt_hip_callback)
+	rospy.Subscriber('/left_tilt_hip_controller/state', JointState, left_tilt_hip_callback)
+	rospy.Subscriber('/right_lift_leg_controller/state', JointState, right_lift_leg_callback)
+	rospy.Subscriber('/left_lift_leg_controller/state', JointState, left_lift_leg_callback)
+	rospy.Subscriber('/right_knee_controller/state', JointState, right_knee_callback)
+	rospy.Subscriber('/left_knee_controller/state', JointState, left_knee_callback)
+	rospy.Subscriber('/right_lift_ankle_controller/state', JointState, right_lift_ankle_callback)
+	rospy.Subscriber('/left_lift_ankle_controller/state', JointState, left_lift_ankle_callback)
+	rospy.Subscriber('/right_rot_ankle_controller/state', JointState, right_rot_ankle_callback)
+	rospy.Subscriber('/left_rot_ankle_controller/state', JointState, left_rot_ankle_callback)									
 	rospy.Subscriber('/neck_controller/state', JointState, neck_callback)
-									
+
 	rate = rospy.Rate(30)
 	rospy.spin()
 	

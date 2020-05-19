@@ -19,13 +19,23 @@
                 --port pan_tilt_port
 				
                 neck_controller
-				
 				left_shoulder_controller
 				right_elbow_controller
 				left_elbow_controller
 				right_hand_controller
 				left_hand_controller
-				
+				right_rot_hip_controller
+                left_rot_hip_controller
+                right_tilt_hip_controller
+                left_tilt_hip_controller
+                right_lift_leg_controller
+                left_lift_leg_controller
+                right_knee_controller
+                left_knee_controller
+                right_lift_ankle_controller
+                left_lift_ankle_controller
+                right_rot_ankle_controller
+                left_rot_ankle_controller
 				"
           output="screen"/>
           
@@ -36,25 +46,39 @@
                 --type=meta
                 
 				neck_controller
-				
 				left_shoulder_controller
 				right_elbow_controller
 				left_elbow_controller
 				right_hand_controller
+
 				left_hand_controller
-				
-				"
+                right_rot_hip_controller
+                left_rot_hip_controller
+                right_tilt_hip_controller
+                left_tilt_hip_controller
+
+                right_lift_leg_controller
+                left_lift_leg_controller
+                right_knee_controller
+                left_knee_controller
+                right_lift_ankle_controller
+                
+                left_lift_ankle_controller
+                right_rot_ankle_controller
+                left_rot_ankle_controller
+                				"
 		  output="screen"/>
 	
 	<node name="motion_saver" pkg="jacob" type="motion_saver.py" output="screen" launch-prefix="xterm -e"/>
     <node name="qlor_greet" pkg="jacob" type="qlor_greet.py" output="screen" />
     <node name="quantum_mood" pkg="jacob" type="quantum_mood.py" output="screen" />
-    <node name="quantum_player" pkg="jacob" type="quantum_player.py" output="screen" />
+    <node name="quantum_player" pkg="jacob" type="quantum_player.py" output="screen" launch-prefix="xterm -e"/>
 	<node name="joint_mapper" pkg="jacob" type="joint_states2motor_states.py"/> 
 	<node name="keyboard" pkg="keyboard" type="keyboard"/>
     
     <node name="quantum_motion_generation" pkg="jacob" type="quantum_motion_generation.py" output="screen" launch-prefix="xterm -e"/>
-	<!-- <node name="motion_player" pkg="jacob" type="motion_player.py" /> -->
+	<!-- <node name="qvision" pkg="jacob" type="qvision.py" output="screen" launch-prefix="xterm -e"/> -->
+    <!-- <node name="motion_player" pkg="jacob" type="motion_player.py" output="screen" launch-prefix="xterm -e"/> -->
     <!-- <node name="battery_status" pkg="jacob" type="battery_status.py" output="screen" launch-prefix="xterm -e"/> -->
     <!-- <node name="speed_combine" pkg="jacob" type="speed_combine.py" output="screen" launch-prefix="xterm -e"/> -->
 

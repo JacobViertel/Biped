@@ -6,7 +6,10 @@ import numpy as np
 import csv
 import os
 
+import pandas as pd
+
 name = sys.argv[1]
+# name = "test"
 homedir = os.environ['HOME']
 motion_file = homedir + "/catkin_ws/src/jacob/motions/"+ name + ".txt"
 file = open(name,"w+")
@@ -38,6 +41,7 @@ for i in range(len(motors)):
         pass
     else:
         raise Exception("Value is not defined")
+    # circuit_type = "d"
     rot = 0
     qp_hadamard = 0
     cp_hadamard = 0
@@ -61,8 +65,8 @@ for i in range(len(motors)):
     circ_prop.append(qp_hadamard)
     circ_prop.append(cp_hadamard)
     print("Define input state!(e.g. 01 or 11)")
-    input_state = input("Your input state: ")
-    input_state = "01"
+    # input_state = input("Your input state: ")
+    input_state = "10"
     def split(word): 
         return [char for char in word] 
     split_input = split(input_state)
@@ -79,6 +83,7 @@ for i in range(len(motors)):
 
 #build and execute circuits for joints
 posture_it = int(input("How many postures do you want? "))
+# posture_it = 5
 with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_properties.csv") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
@@ -129,9 +134,21 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
     Lshoulder_motion = []
     Lelbow_motion = []
     Lwrist_motion = []
-    neck_motion = []
     Relbow_motion = []
     Rwrist_motion = []
+    right_rot_hip = []
+    left_rot_hip = []
+    right_tilt_hip = []
+    left_tilt_hip = []
+    right_lift_leg = []
+    left_lift_leg = []
+    right_knee = []
+    left_knee = []
+    right_lift_ankle = []
+    left_lift_ankle = []
+    right_rot_ankle = []
+    left_rot_ankle = []
+    neck_motion = []
     
     for row in csv_reader:
         if  line_count == 0:
@@ -193,21 +210,48 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
         elif line_count == 5:
             for i in row:
                 if i == "00":
-                    neck_motion.append(0.62)
+                    neck_motion.append(3.74)
                 elif i == "01" or i == "10":
-                    neck_motion.append(-0.13)
+                    neck_motion.append(3.14)
                 elif i == "11":
-                    neck_motion.append(-0.83)
+                    neck_motion.append(2.14)
             line_count +=1
-
+    count = 0
+    circ_res = []
+    while count < posture_it:
+        count +=1
+        right_rot_hip.append(-0.04)
+        left_rot_hip.append(0.01)
+        right_tilt_hip.append(0.02)
+        left_tilt_hip.append(3.20)
+        right_lift_leg.append(1.98)
+        left_lift_leg.append(4.30)
+        right_knee.append(4.20)
+        left_knee.append(2.20)
+        right_lift_ankle.append(3.00)
+        left_lift_ankle.append(3.35)
+        right_rot_ankle.append(3.20)
+        left_rot_ankle.append(0.39)
+    # right_rot_hip.pop()
+    # left_rot_hip.pop()
+    # right_tilt_hip.pop()
+    # left_tilt_hip.pop()
+    # right_lift_leg.pop()
+    # left_lift_leg.pop()
+    # right_knee.pop()
+    # left_knee.pop()
+    # right_lift_ankle.pop()
+    # left_lift_ankle.pop()
+    # right_rot_ankle.pop()
+    # left_rot_ankle.pop()
+        
     # for i in row:
         # Rshoulder_motion.append(-0.13)
         # Relbow_motion.append(0.21)
         # Rwrist_motion.append(0.12)
     # print(shoulder_motion)
     # print(elbow_motion)
-    # print(wrist_motion)
-
+    
     
 with open(motion_file, "a") as fp:
     wr = csv.writer(fp, dialect="excel")
@@ -216,6 +260,18 @@ with open(motion_file, "a") as fp:
     wr.writerow(Lelbow_motion)
     wr.writerow(Rwrist_motion)
     wr.writerow(Lwrist_motion)
+    wr.writerow(right_rot_hip)
+    wr.writerow(left_rot_hip)
+    wr.writerow(right_tilt_hip)
+    wr.writerow(left_tilt_hip)
+    wr.writerow(right_lift_leg)
+    wr.writerow(left_lift_leg)
+    wr.writerow(right_knee)
+    wr.writerow(left_knee)
+    wr.writerow(right_lift_ankle)
+    wr.writerow(left_lift_ankle)
+    wr.writerow(right_rot_ankle)
+    wr.writerow(left_rot_ankle)
     wr.writerow(neck_motion)
 
 with open(motion_file) as file:
@@ -223,11 +279,18 @@ with open(motion_file) as file:
 
 x = np.array(lis)
 # print(x)
-init_pose = [0.03,-0.005,1.4,-0.04,0.21,-0.13]
+init_pose = [0.03,-0.005,1.4,-0.04,0.21,-0.04,0.01,0.02,3.20,1.98,4.30,4.20,2.20,3.00,3.35,3.20,0.39,3.14]
+
+        
 with open(motion_file, "w") as fp:
     wr = csv.writer(fp, dialect="excel")
-    for i in range(len(x.T)):
-        wr.writerow(x.T[i])
+    for i in range(len(x)):
+        wr.writerow(x[i])
+    # wr.writerow(init_pose)
+
+pd.read_csv(motion_file, header=None).T.to_csv(motion_file, header=False, index=False)
+with open(motion_file, "a") as fp:
+    wr = csv.writer(fp, dialect="excel")
     wr.writerow(init_pose)
 print("motion file " + name + ".txt was generated")
         

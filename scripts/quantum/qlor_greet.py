@@ -13,12 +13,12 @@ import os
 lor_motion_pub = rospy.Publisher('/play_quantum_motion', String, queue_size = 10)
 
 def callback(data):
-    x = data.data
-    z = call("python3.7 /home/biped/catkin_ws/src/jacob/scripts/qiskit/l_r_greet.py {}".format(x), shell=True)
-    with open("/home/biped/catkin_ws/src/jacob/scripts/results/l_r_greet_result.csv") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            motion = row[0]
+	x = data.data
+	z = call("python3.7 /home/biped/catkin_ws/src/jacob/scripts/qiskit/l_r_greet.py {}".format(x), shell=True)
+	with open("/home/biped/catkin_ws/src/jacob/scripts/results/l_r_greet_result.csv") as csv_file:
+		csv_reader = csv.reader(csv_file, delimiter=',')
+		for row in csv_reader:
+			motion = row[0]
 	name = ""
 	print(motion)
 	print(type(motion))
@@ -30,6 +30,7 @@ def callback(data):
 		name = "down"
 	elif motion == "11":
 		name = "right"
+	# print(name)
 	lor_motion_pub.publish(name)
 
 def internal_state():
