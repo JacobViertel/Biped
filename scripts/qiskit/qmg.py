@@ -149,6 +149,7 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
     right_rot_ankle = []
     left_rot_ankle = []
     neck_motion = []
+    delay = []
     
     for row in csv_reader:
         if  line_count == 0:
@@ -232,6 +233,7 @@ with open("/home/biped/catkin_ws/src/jacob/scripts/results/circuit_results.csv")
         left_lift_ankle.append(3.35)
         right_rot_ankle.append(3.20)
         left_rot_ankle.append(0.39)
+        delay.append(1.00)
     # right_rot_hip.pop()
     # left_rot_hip.pop()
     # right_tilt_hip.pop()
@@ -273,13 +275,14 @@ with open(motion_file, "a") as fp:
     wr.writerow(right_rot_ankle)
     wr.writerow(left_rot_ankle)
     wr.writerow(neck_motion)
+    wr.writerow(delay)
 
 with open(motion_file) as file:
     lis = [x.replace('\n', '').split(',') for x in file]
 
 x = np.array(lis)
 # print(x)
-init_pose = [0.03,-0.005,1.4,-0.04,0.21,-0.04,0.01,0.02,3.20,1.98,4.30,4.20,2.20,3.00,3.35,3.20,0.39,3.14]
+init_pose = [0.03,-0.005,1.4,-0.04,0.21,-0.04,0.01,0.02,3.20,1.98,4.30,4.20,2.20,3.00,3.35,3.20,0.39,3.14,1.00]
 
         
 with open(motion_file, "w") as fp:

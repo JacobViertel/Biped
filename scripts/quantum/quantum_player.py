@@ -13,6 +13,7 @@ is_moving = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 global in_action
 in_action = 0
 
+qbbvpub = rospy.Publisher('/qbbv_player', String, queue_size = 10)
 pub2 = rospy.Publisher('/left_shoulder_controller/command', Float64, queue_size = 10)
 pub3 = rospy.Publisher('/right_elbow_controller/command', Float64, queue_size = 10)
 pub4 = rospy.Publisher('/left_elbow_controller/command', Float64, queue_size = 10)
@@ -70,6 +71,8 @@ def motion_play(data):
 					pub17.publish(float(joint_positions[15]))
 					pub18.publish(float(joint_positions[16]))
 					pub19.publish(float(joint_positions[17]))
+					delay = joint_positions[18]
+					rospy.sleep(float(delay))
 					global is_moving
 					is_moving = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 					def left_shoulder_callback(data):
@@ -145,12 +148,16 @@ def motion_play(data):
 					rospy.Subscriber('/right_rot_ankle_controller/state', JointState, right_rot_ankle_callback)
 					rospy.Subscriber('/left_rot_ankle_controller/state', JointState, left_rot_ankle_callback)
 					rospy.Subscriber('/neck_controller/state', JointState, neck_callback)
-					
+					print("is_moving")
+					with open ("/home/biped/catkin_ws/src/jacob/scripts/results/status.txt", "w") as fp:
+						fp.write("is moving")
 					# delay between motions
 					while any(is_moving):
 						rospy.sleep(0.05)
 				in_action = 0
 				print "motion is done"
+				with open ("/home/biped/catkin_ws/src/jacob/scripts/results/status.txt", "w") as fp:
+					fp.write("done")
 		except:
 			in_action = 0
 			print "motion file doens't exist"

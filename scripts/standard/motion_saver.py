@@ -46,7 +46,8 @@ battery_pub = rospy.Publisher('/battery_stat', String, queue_size = 10)
 qlor_greet_pub = rospy.Publisher('/lor_handed', String)
 q_mood_pub = rospy.Publisher('/q_mood', String, queue_size = 10)
 qvision_pub = rospy.Publisher('/qvision', String)
-
+qbbv_pub = rospy.Publisher('/qbbv', String)
+prepross_pub = rospy.Publisher('/prepross', String)
 
 #  call back function for the keyboard/key topic subscribe
 #  h - help menu
@@ -99,17 +100,26 @@ def keyboard_capture(data):
 		print "- y = turn on/off torque a body part"
 		print "- v = start vision"
 		print "- h = help"
+		print "- s = start quantum biped Breitenberg Vehicle"
+		print "- b = start prepross app"
 		name = raw_input("press enter to go back")
 	
+
+	#press on "s" to quantum biped Breitenberg Vehicle
+	if button == 115 and edit !=1:
+		name = "Start quantum biped Breitenberg Vehicle"
+		qbbv_pub.publish(name)
+		name = raw_input("press enter to go back")
+
 	#press on "v" to start vision
 	if button == 118 and edit !=1:
-		name = ""
-		print("Which example image do you use for vision?")
-		name = raw_input("Jacob [1], Marek [2], or Will [3]: ")
-		if name == "none":
-			print "going back"
-		else:
-			qvision_pub.publish(name)
+		name = "Start vision"
+		# print("Which example image do you use for vision?")
+		# name = raw_input("Jacob [1], Marek [2], or Will [3]: ")
+		# if name == "none":
+			# print "going back"
+		# else:
+		qvision_pub.publish(name)
 		name = raw_input("press enter to go back")
 
 	#press on "g" to play motions
@@ -167,20 +177,13 @@ def keyboard_capture(data):
 
 	#press on "b" to start quantum machine
 	if button == 98 and edit !=1:
-		batt_status = ""
-		print "Input plaese"
-		batt_status = raw_input()
-		battery_pub.publish(batt_status)
-		# print "What is the battery status?"
-		# name = ""
-		# name = raw_input("What motion do you want to play?: ")
-		# if batt_status == 0:
-		# 	print "not enough battery, please charge"
-		# 	battery_pub.publish(name)
-		# else:
-		# 	print "enough battery, lets start"
-		# 	battery_pub.publish(name)
-		#press on "b" to start quantum machine
+		prepross_str = "start"
+		prepross_pub.publish(prepross_str)
+		if os.path.exists("/home/biped/catkin_ws/src/jacob/scripts/prepross/prediction_ip.csv"):
+    			os.remove("/home/biped/catkin_ws/src/jacob/scripts/prepross/prediction_ip.csv")
+    			print("Du hurensohn")
+		else:
+    			print("Du verdammter hurensohn")
 
 	#press on "m" to start quantum machine	
 	if button == 109 and edit !=1:
@@ -476,6 +479,9 @@ def keyboard_capture(data):
 		print "- v = start vision"
 		print "- g = init robot left- or right-handed"
 		print "- h = help"
+		print "- s = start quantum biped Breitenberg Vehicle"
+		print "- b = start prepross app"
+
 			
 # callback funtions for reading joint locations
 # updates the position[i] list
@@ -575,6 +581,8 @@ def motion_control():
 	print "- g = init robot left- or right-handed"
 	print "- v = start vision"
 	print "- h = help"
+	print "- s = start quantum biped Breitenberg Vehicle"
+	print "- b = start prepross app"
 	
 	rospy.init_node('motion_saver', anonymous=True)
 	rospy.Subscriber('/keyboard/keydown', Key, keyboard_capture,queue_size=1)

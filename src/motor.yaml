@@ -69,12 +69,12 @@ right_rot_hip_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_rot_hip_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 7
         init: 2050
         min: 100
-        max: 3800
+        max: 3900
 
 left_rot_hip_controller:
     controller:
@@ -82,7 +82,7 @@ left_rot_hip_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_rot_hip_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 8
         init: 2000
@@ -95,12 +95,12 @@ right_tilt_hip_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_tilt_hip_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 9
         init: 2036
-        min: 2000
-        max: 2050
+        min: 50
+        max: 3500
 
 left_tilt_hip_controller:
     controller:
@@ -108,12 +108,12 @@ left_tilt_hip_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_tilt_hip_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 10
         init: 0
-        min: 2050
-        max: 3000
+        min: 50
+        max: 3500
 
 right_lift_leg_controller:
     controller:
@@ -121,12 +121,12 @@ right_lift_leg_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_lift_leg_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 11
         init: 0
-        min: 700
-        max: 2500
+        min: 50
+        max: 3500
 
 left_lift_leg_controller:
     controller:
@@ -134,12 +134,12 @@ left_lift_leg_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_lift_leg_joint
-    joint_speed: 0.7
+    joint_speed: 0.2
     motor:
         id: 12
         init: 0
-        min: 1090
-        max: 3580
+        min: 50
+        max: 3500
 
 right_knee_controller:
     controller:
@@ -147,12 +147,12 @@ right_knee_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_knee_joint
-    joint_speed: 0.7
+    joint_speed: 0.25
     motor:
         id: 13
         init: 0
-        min: 1500
-        max: 2900
+        min: 50
+        max: 3500
 
 left_knee_controller:
     controller:
@@ -160,12 +160,12 @@ left_knee_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_knee_joint
-    joint_speed: 0.7
+    joint_speed: 0.25
     motor:
         id: 14
         init: 0
-        min: 1000
-        max: 2500
+        min: 100
+        max: 3500
 
 right_lift_ankle_controller:
     controller:
@@ -173,12 +173,12 @@ right_lift_ankle_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_lift_ankle_joint
-    joint_speed: 0.7
+    joint_speed: 0.15
     motor:
         id: 15
         init: 0
-        min: 1100
-        max: 2750
+        min: 100
+        max: 3500
 
 left_lift_ankle_controller:
     controller:
@@ -186,12 +186,12 @@ left_lift_ankle_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_lift_ankle_joint
-    joint_speed: 0.7
+    joint_speed: 0.15
     motor:
         id: 16
         init: 0
-        min: 1100
-        max: 2850
+        min: 50
+        max: 3500
 
 right_rot_ankle_controller:
     controller:
@@ -199,12 +199,12 @@ right_rot_ankle_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_rot_ankle_joint
-    joint_speed: 0.7
+    joint_speed: 0.15
     motor:
         id: 17
         init: 0
-        min: 1800
-        max: 2250
+        min: 50
+        max: 3500
 
 left_rot_ankle_controller:
     controller:
@@ -212,12 +212,12 @@ left_rot_ankle_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_rot_ankle_joint
-    joint_speed: 0.7
+    joint_speed: 0.15
     motor:
         id: 18
         init: 2098
-        min: 1550
-        max: 2550
+        min: 50
+        max: 3500
 
 neck_controller:
     controller:
@@ -229,6 +229,6 @@ neck_controller:
     motor:
         id: 19
         init: 0
-        min: 1652
-        max: 2448
+        min: 500
+        max: 3000
 
